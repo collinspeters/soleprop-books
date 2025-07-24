@@ -27,6 +27,8 @@ mix
         },
     })
     .options({
+        processCssUrls: false,
+        purifyCss: false,
         terser: {
             extractComments: false,
         }

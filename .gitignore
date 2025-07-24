@@ -85,13 +85,22 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+.env.production
+.env.local
 robots.txt
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
 /storage/debugbar/*
 .phpunit.result.cache
-modules/*
-!modules/.gitkeep
+# Modules - Include in repository for Railway deployment
+# modules/* - Commented out to include modules in git
+# !modules/.gitkeep - Not needed when modules are included
+
+# Only ignore module-specific generated files
+modules/*/storage/
+modules/*/node_modules/
+modules/*/.env
+modules/*/vendor/
 .laravelstatsrc
 .DS_Store

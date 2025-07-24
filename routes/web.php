@@ -9,7 +9,16 @@ use Livewire\Livewire;
  * @see \App\Providers\Route::mapWebRoutes
  */
 
- Livewire::setScriptRoute(function ($handle) {
+// Health check endpoint for Railway
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'timestamp' => now()->toISOString(),
+        'database' => 'connected'
+    ]);
+});
+
+Livewire::setScriptRoute(function ($handle) {
     $base = request()->getBasePath();
 
     return Route::get($base . '/vendor/livewire/livewire/dist/livewire.min.js', $handle);
