@@ -34,4 +34,33 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Plaid Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for Plaid banking API integration
+    |
+    */
+
+    'plaid' => [
+        'client_id' => env('PLAID_CLIENT_ID'),
+        'secret' => env('PLAID_SECRET'),
+        'environment' => env('PLAID_ENVIRONMENT', 'sandbox'), // sandbox, development, production
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | OpenAI Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for OpenAI API integration for transaction categorization
+    |
+    */
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
+    ],
+
 ];

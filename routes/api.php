@@ -57,6 +57,22 @@ Route::group(['as' => 'api.'], function () {
     // Transfers
     Route::apiResource('transfers', 'Banking\Transfers', ['middleware' => ['date.format', 'money', 'dropzone']]);
 
+    // Plaid Integration
+    Route::group(['prefix' => 'plaid', 'as' => 'plaid.'], function () {
+        Route::post('link-token', 'Banking\PlaidController@createLinkToken')->name('link-token');
+        Route::post('exchange-token', 'Banking\PlaidController@exchangeToken')->name('exchange-token');
+        Route::post('accounts', 'Banking\PlaidController@getAccounts')->name('accounts');
+        Route::post('import', 'Banking\PlaidController@importTransactions')->name('import');
+        Route::post('import-sync', 'Banking\PlaidController@importTransactionsSync')->name('import-sync');
+        Route::get('import-status', 'Banking\PlaidController@getImportStatus')->name('import-status');
+        Route::post('sync-balances', 'Banking\PlaidController@syncBalances')->name('sync-balances');
+        Route::get('test-credentials', 'Banking\PlaidController@testCredentials')->name('test-credentials');
+        Route::get('test-openai', 'Banking\PlaidController@testOpenAiCredentials')->name('test-openai');
+        Route::get('categorization-stats', 'Banking\PlaidController@getCategorizationStats')->name('categorization-stats');
+        Route::delete('clear-cache', 'Banking\PlaidController@clearCategorizationCache')->name('clear-cache');
+        Route::get('category-suggestions', 'Banking\PlaidController@getCategorySuggestions')->name('category-suggestions');
+    });
+
     // Reports
     Route::resource('reports', 'Common\Reports');
 
