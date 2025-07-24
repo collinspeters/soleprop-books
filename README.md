@@ -1,4 +1,4 @@
-﻿# Akaunting™
+# Akaunting™
 
 [![Release](https://img.shields.io/github/v/release/akaunting/akaunting?label=release)](https://github.com/akaunting/akaunting/releases)
 ![Downloads](https://img.shields.io/github/downloads/akaunting/akaunting/total?label=downloads)
@@ -27,6 +27,7 @@ Akaunting uses [Laravel](http://laravel.com), the best existing PHP framework, a
 
 ## Installation
 
+### Local Development
 * Install [Composer](https://getcomposer.org/download) and [Npm](https://nodejs.org/en/download)
 * Clone the repository: `git clone https://github.com/akaunting/akaunting.git`
 * Install dependencies: `composer install ; npm install ; npm run dev`
@@ -37,6 +38,22 @@ php artisan install --db-name="akaunting" --db-username="root" --db-password="pa
 ```
 
 * Create sample data (optional): `php artisan sample-data:seed`
+
+### Railway Deployment (SaaS Ready)
+This repository is pre-configured for Railway deployment as a SaaS application:
+
+* **Quick Deploy**: Connect your GitHub repo to Railway and deploy automatically
+* **Documentation**: See `RAILWAY_DEPLOYMENT.md` for detailed setup instructions
+* **Checklist**: Use `DEPLOYMENT_CHECKLIST.md` to ensure proper configuration
+* **Verification**: Run `./verify-deployment.sh` after deployment to verify everything works
+
+**Railway Features Included:**
+- ✅ Automatic database setup (MySQL + Redis)
+- ✅ S3 file storage configuration
+- ✅ Queue worker support
+- ✅ Performance monitoring
+- ✅ Health check endpoints
+- ✅ Production optimizations
 
 ## Contributing
 

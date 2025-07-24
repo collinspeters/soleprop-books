@@ -1,0 +1,13 @@
+{
+    "name": "PaypalStandard",
+    "alias": "paypal-standard",
+    "description": "PayPal Standard payment gateway for Akaunting",
+    "version": "3.0.0",
+    "active": 1,
+    "order": 2,
+    "providers": [
+        "Modules\\PaypalStandard\\Providers\\Main"
+    ],
+    "files": [],
+    "requires": []
+}

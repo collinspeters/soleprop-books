@@ -15,6 +15,10 @@ php artisan tinker --execute="DB::connection()->getPdo();" || {
 
 echo "✅ Database connection established"
 
+# Run Railway setup
+echo "🔧 Running Railway setup..."
+php artisan railway:setup
+
 # Check if app is installed
 if [ "$APP_INSTALLED" != "true" ]; then
     echo "🔧 Setting up Akaunting for first time..."
@@ -44,13 +48,6 @@ if [ "$APP_INSTALLED" != "true" ]; then
 else
     echo "🔄 Running database migrations..."
     php artisan migrate --force
-    
-    # Clear caches
-    echo "🧹 Clearing caches..."
-    php artisan cache:clear
-    php artisan config:cache
-    php artisan route:cache
-    php artisan view:cache
 fi
 
 # Set proper permissions

@@ -1,0 +1,13 @@
+{
+    "name": "OfflinePayments",
+    "alias": "offline-payments",
+    "description": "Offline payment methods for Akaunting",
+    "version": "3.0.0",
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\OfflinePayments\\Providers\\Main"
+    ],
+    "files": [],
+    "requires": []
+}
