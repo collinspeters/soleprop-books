@@ -6,6 +6,7 @@ use App\Abstracts\Observer;
 use App\Events\Document\TransactionsCounted;
 use App\Jobs\Banking\UpdateTransaction;
 use App\Jobs\Document\CreateDocumentHistory;
+use App\Jobs\ProcessExpenseForGifiCategorization;
 use App\Models\Banking\Transaction as Model;
 use App\Models\Document\Document;
 use App\Traits\Jobs;
@@ -13,6 +14,36 @@ use App\Traits\Jobs;
 class Transaction extends Observer
 {
     use Jobs;
+
+    /**
+     * Listen to the created event.
+     *
+     * @param  Model  $transaction
+     * @return void
+     */
+    public function created(Model $transaction)
+    {
+        // Dispatch GIFI categorization job for new expense transactions
+        if ($this->isExpenseTransaction($transaction)) {
+            $this->dispatch(new ProcessExpenseForGifiCategorization($transaction));
+        }
+    }
+
+    /**
+     * Check if the transaction is an expense type
+     *
+     * @param  Model  $transaction
+     * @return bool
+     */
+    private function isExpenseTransaction(Model $transaction): bool
+    {
+        return in_array($transaction->type, [
+            Model::EXPENSE_TYPE,
+            Model::EXPENSE_TRANSFER_TYPE,
+            Model::EXPENSE_SPLIT_TYPE,
+            Model::EXPENSE_RECURRING_TYPE
+        ]);
+    }
 
     /**
      * Listen to the deleted event.

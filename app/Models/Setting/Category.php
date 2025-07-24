@@ -33,7 +33,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['company_id', 'name', 'type', 'color', 'enabled', 'created_from', 'created_by', 'parent_id'];
+    protected $fillable = ['company_id', 'name', 'type', 'color', 'enabled', 'created_from', 'created_by', 'parent_id', 'gifi_code'];
 
     /**
      * Sortable columns.
