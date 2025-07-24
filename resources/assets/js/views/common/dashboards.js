@@ -17,6 +17,7 @@ import BulkAction from './../../plugins/bulk-action';
 import {getQueryVariable} from './../../plugins/functions';
 
 import AkauntingWidget from './../../components/AkauntingWidget';
+import AkauntingFinancialAssistant from './../../components/AkauntingFinancialAssistant';
 
 import {DatePicker, Tooltip} from 'element-ui';
 
@@ -31,7 +32,8 @@ const dashboard = new Vue({
     components: {
         [DatePicker.name]: DatePicker,
         [Tooltip.name]: Tooltip,
-        AkauntingWidget
+        AkauntingWidget,
+        AkauntingFinancialAssistant
     },
 
     mixins: [

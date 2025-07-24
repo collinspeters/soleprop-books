@@ -94,6 +94,9 @@
 
         @stack('body_end')
 
+        <!-- Financial Assistant -->
+        <akaunting-financial-assistant></akaunting-financial-assistant>
+
         <x-layouts.admin.scripts />
     </body>
 </html>

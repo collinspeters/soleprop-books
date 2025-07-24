@@ -5,6 +5,7 @@ import StatsCard from './../components/Cards/StatsCard.vue';
 import BaseButton from './../components/BaseButton.vue';
 import Badge from './../components/Badge.vue';
 import BaseAlert from './../components/BaseAlert';
+import AkauntingFinancialAssistant from './../components/AkauntingFinancialAssistant.vue';
 import { Input, Tooltip, Popover } from 'element-ui';
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
@@ -20,6 +21,7 @@ const GlobalComponents = {
         Vue.component(Card.name, Card);
         Vue.component(Modal.name, Modal);
         Vue.component(StatsCard.name, StatsCard);
+        Vue.component(AkauntingFinancialAssistant.name, AkauntingFinancialAssistant);
         Vue.component(Input.name, Input);
         Vue.use(Tooltip);
         Vue.use(Popover);

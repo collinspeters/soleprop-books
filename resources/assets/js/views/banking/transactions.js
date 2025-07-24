@@ -14,12 +14,17 @@ import Global from './../../mixins/global';
 
 import Form from './../../plugins/form';
 import BulkAction from './../../plugins/bulk-action';
+import AkauntingFinancialAssistant from './../../components/AkauntingFinancialAssistant';
 
 // plugin setup
 Vue.use(DashboardPlugin);
 
 const app = new Vue({
     el: '#main-body',
+
+    components: {
+        AkauntingFinancialAssistant
+    },
 
     mixins: [
         Global

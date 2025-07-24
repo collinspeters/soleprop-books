@@ -16,6 +16,7 @@ import Form from './../../plugins/form';
 import BulkAction from './../../plugins/bulk-action';
 import Money from './../../plugins/money';
 import draggable from 'vuedraggable';
+import AkauntingFinancialAssistant from './../../components/AkauntingFinancialAssistant';
 
 // plugin setup
 Vue.use(DashboardPlugin);
@@ -28,7 +29,8 @@ const app = new Vue({
     ],
 
     components: {
-        draggable
+        draggable,
+        AkauntingFinancialAssistant
     },
 
     data: function () {
