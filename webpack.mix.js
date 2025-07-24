@@ -25,11 +25,32 @@ mix
         stats: {
             children: true
         },
+        // Memory optimization settings
+        optimization: {
+            splitChunks: {
+                chunks: 'all',
+                cacheGroups: {
+                    vendor: {
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendors',
+                        chunks: 'all',
+                    },
+                },
+            },
+        },
+        // Reduce memory usage during builds
+        performance: {
+            hints: false,
+            maxEntrypointSize: 512000,
+            maxAssetSize: 512000
+        }
     })
     .options({
         terser: {
             extractComments: false,
-        }
+        },
+        // Reduce memory usage for processing
+        processCssUrls: false
     })
 
     // Auth
