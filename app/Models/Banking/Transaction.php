@@ -181,6 +181,11 @@ class Transaction extends Model
         return $this->hasMany('App\Models\Banking\TransactionTax');
     }
 
+    public function receipt()
+    {
+        return $this->hasOne('App\Models\Banking\Receipt');
+    }
+
     public function scopeNumber(Builder $query, string $number): Builder
     {
         return $query->where('number', '=', $number);

@@ -34,4 +34,15 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    'ocr' => [
+        'url' => env('OCR_API_URL', 'https://api.ocr.space/parse/image'),
+        'key' => env('OCR_API_KEY'),
+    ],
+
+    'openai' => [
+        'url' => env('OPENAI_API_URL', 'https://api.openai.com/v1/chat/completions'),
+        'key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
+    ],
+
 ];

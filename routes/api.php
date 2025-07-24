@@ -54,6 +54,15 @@ Route::group(['as' => 'api.'], function () {
     // Transactions
     Route::apiResource('transactions', 'Banking\Transactions', ['middleware' => ['date.format', 'money', 'dropzone']]);
 
+    // Receipts
+    Route::get('receipts/stats', 'Banking\Receipts@stats')->name('receipts.stats');
+    Route::post('receipts/{receipt}/retry', 'Banking\Receipts@retry')->name('receipts.retry');
+    Route::post('receipts/{receipt}/reprocess', 'Banking\Receipts@reprocess')->name('receipts.reprocess');
+    Route::get('receipts/{receipt}/download', 'Banking\Receipts@download')->name('receipts.download');
+    Route::post('receipts/{receipt}/match', 'Banking\Receipts@matchToTransaction')->name('receipts.match');
+    Route::post('receipts/{receipt}/unmatch', 'Banking\Receipts@unmatch')->name('receipts.unmatch');
+    Route::apiResource('receipts', 'Banking\Receipts', ['middleware' => ['dropzone']]);
+
     // Transfers
     Route::apiResource('transfers', 'Banking\Transfers', ['middleware' => ['date.format', 'money', 'dropzone']]);
 
