@@ -9,6 +9,7 @@ use App\Jobs\Common\CreateReport;
 use App\Jobs\Common\DeleteReport;
 use App\Jobs\Common\UpdateReport;
 use App\Models\Common\Report;
+use App\Services\ReportAiService;
 use App\Utilities\Reports as Utility;
 
 class Reports extends Controller
@@ -251,6 +252,38 @@ class Reports extends Controller
         }
 
         return Utility::getClassInstance($report)->export();
+    }
+
+    /**
+     * Generate AI summary for the report.
+     *
+     * @param  Report $report
+     * @return Response
+     */
+    public function aiSummary(Report $report)
+    {
+        if (Utility::cannotShow($report->class)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Unauthorized access to report.',
+            ], 403);
+        }
+
+        $aiService = new ReportAiService();
+        
+        if (!$aiService->isConfigured()) {
+            return response()->json([
+                'success' => false,
+                'error' => 'AI service is not configured. Please contact your administrator.',
+            ], 500);
+        }
+
+        $userQuestion = request('question');
+        $class = Utility::getClassInstance($report);
+        
+        $result = $aiService->summarizeReport($class, $userQuestion);
+
+        return response()->json($result);
     }
 
     /**

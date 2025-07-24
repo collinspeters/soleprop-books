@@ -69,6 +69,8 @@
 
             @include($class->views['filter'])
 
+            @include('components.reports.ai-summary')
+
             @include($class->views[$class->type])
         </div>
     </x-slot>

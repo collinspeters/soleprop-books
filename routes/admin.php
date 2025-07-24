@@ -46,6 +46,7 @@ Route::group(['prefix' => 'common'], function () {
     Route::get('reports/{report}/export', 'Common\Reports@export')->name('reports.export');
     Route::get('reports/{report}/duplicate', 'Common\Reports@duplicate')->name('reports.duplicate');
     Route::get('reports/{report}/clear', 'Common\Reports@clear')->name('reports.clear');
+    Route::post('reports/{report}/ai-summary', 'Common\Reports@aiSummary')->name('reports.ai-summary');
     Route::get('reports/fields', 'Common\Reports@fields')->name('reports.fields');
     Route::resource('reports', 'Common\Reports');
 
