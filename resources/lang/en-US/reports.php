@@ -17,6 +17,7 @@ return [
     'expense_summary'           => 'Expense Summary',
     'income_expense_summary'    => 'Income vs Expense',
     'tax_summary'               => 'Tax Summary',
+    'monthly_summary'           => 'Monthly Summary',
 
     'charts' => [
         'line'                  => 'Line',

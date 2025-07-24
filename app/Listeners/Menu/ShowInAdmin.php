@@ -106,7 +106,20 @@ class ShowInAdmin
         // Reports
         $title = trim(trans_choice('general.reports', 2));
         if ($this->canAccessMenuItem($title, 'read-common-reports')) {
-            $menu->route('reports.index', $title, [], 60, ['icon' => 'donut_small']);
+            $menu->dropdown($title, function ($sub) use ($attr) {
+                $title = trim(trans_choice('general.reports', 2));
+                if ($this->canAccessMenuItem($title, 'read-common-reports')) {
+                    $sub->route('reports.index', $title, [], 10, $attr);
+                }
+
+                $title = trim(trans('Monthly Summary'));
+                if ($this->canAccessMenuItem($title, 'read-reports')) {
+                    $sub->route('reports.monthly-summary.show', $title, [], 20, $attr);
+                }
+            }, 60, [
+                'title' => $title,
+                'icon' => 'donut_small',
+            ]);
         }
 
         // Apps

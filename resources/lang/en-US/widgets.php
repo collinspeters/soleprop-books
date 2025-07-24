@@ -20,4 +20,6 @@ return [
     'account_balance'           => 'Account Balance',
     'latest_income'             => 'Latest Income',
     'latest_expenses'           => 'Latest Expenses',
+    'monthly_summary'           => 'Monthly Summary',
+    'monthly_summary_description' => 'Monthly financial summary with AI insights',
 ];

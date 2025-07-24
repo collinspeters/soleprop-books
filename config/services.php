@@ -34,4 +34,8 @@ return [
         'api_key' => env('SENDGRID_API_KEY'),
     ],
 
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
+
 ];

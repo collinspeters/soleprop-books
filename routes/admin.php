@@ -49,6 +49,14 @@ Route::group(['prefix' => 'common'], function () {
     Route::get('reports/fields', 'Common\Reports@fields')->name('reports.fields');
     Route::resource('reports', 'Common\Reports');
 
+    // Monthly Summary routes
+    Route::group(['as' => 'reports.monthly-summary.', 'prefix' => 'reports/monthly-summary'], function () {
+        Route::get('/{year?}/{month?}', 'Common\MonthlySummaryController@show')->name('show');
+        Route::post('/send-email', 'Common\MonthlySummaryController@sendEmail')->name('send-email');
+        Route::get('/dashboard-data', 'Common\MonthlySummaryController@getDashboardData')->name('dashboard-data');
+        Route::post('/schedule', 'Common\MonthlySummaryController@scheduleAutoGeneration')->name('schedule');
+    });
+
     Route::get('contacts/index', 'Common\Contacts@index')->name('contacts.index');
 
     Route::get('plans/check', 'Common\Plans@check')->name('plans.check');
