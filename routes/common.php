@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['as' => 'uploads.', 'prefix' => 'uploads'], function () {
         Route::get('{id}', 'Common\Uploads@get')->name('get');
         Route::get('{id}/show', 'Common\Uploads@show')->name('show');
+        Route::get('{id}/inline', 'Common\Uploads@inline')->name('inline');
         Route::get('{id}/download', 'Common\Uploads@download')->name('download');
     });
 

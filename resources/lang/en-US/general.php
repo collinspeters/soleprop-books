@@ -235,6 +235,7 @@ return [
     'resend'                => 'Resend',
     'last_sent'             => 'Last Sent :date',
     'last_received'         => 'Last Received :date',
+    'preview'               => 'Preview',
     'preview_in_window'     => 'Preview in new window',
     'copied'                => 'Copied',
     'preview_mode'          => 'Preview Mode',
@@ -271,6 +272,9 @@ return [
         'manage'            => 'Manage :type',
         'invite'            => 'Invite :type',
         'closed'            => 'Closed :type',
+    'close'             => 'Close',
+    'pdf_preview_note'  => 'PDF preview for :name',
+    'preview_not_available' => 'Preview not available for this file type',
     ],
 
     'form' => [
