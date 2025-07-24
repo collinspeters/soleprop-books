@@ -14,3 +14,6 @@ use Livewire\Livewire;
 
     return Route::get($base . '/vendor/livewire/livewire/dist/livewire.min.js', $handle);
 });
+
+// Stripe webhook route (no authentication required)
+Route::post('/webhooks/stripe', 'WebhookController@handle')->name('webhooks.stripe');

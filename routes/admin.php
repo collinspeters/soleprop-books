@@ -70,6 +70,15 @@ Route::group(['prefix' => 'auth'], function () {
     Route::patch('profile/{user}', 'Auth\Users@update')->middleware('dropzone')->name('profile.update');
 });
 
+Route::group(['prefix' => 'subscriptions'], function () {
+    Route::get('/', 'SubscriptionController@index')->name('subscriptions.index');
+    Route::get('plans/{plan}/checkout', 'SubscriptionController@checkout')->name('subscriptions.checkout');
+    Route::post('plans/{plan}/subscribe', 'SubscriptionController@subscribe')->name('subscriptions.subscribe');
+    Route::get('{subscription}', 'SubscriptionController@show')->name('subscriptions.show');
+    Route::post('{subscription}/cancel', 'SubscriptionController@cancel')->name('subscriptions.cancel');
+    Route::post('{subscription}/resume', 'SubscriptionController@resume')->name('subscriptions.resume');
+});
+
 Route::group(['prefix' => 'sales'], function () {
     Route::get('invoices/{invoice}/sent', 'Sales\Invoices@markSent')->name('invoices.sent');
     Route::get('invoices/{invoice}/cancelled', 'Sales\Invoices@markCancelled')->name('invoices.cancelled');

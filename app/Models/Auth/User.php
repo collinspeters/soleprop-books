@@ -30,7 +30,7 @@ class User extends Authenticatable implements HasLocalePreference
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'locale', 'enabled', 'landing_page', 'created_from', 'created_by'];
+    protected $fillable = ['name', 'email', 'password', 'locale', 'enabled', 'landing_page', 'created_from', 'created_by', 'stripe_customer_id', 'trial_ends_at', 'on_trial'];
 
     /**
      * The attributes that should be cast.
@@ -40,6 +40,8 @@ class User extends Authenticatable implements HasLocalePreference
     protected $casts = [
         'enabled'           => 'boolean',
         'last_logged_in_at' => 'datetime',
+        'trial_ends_at'     => 'datetime',
+        'on_trial'          => 'boolean',
         'created_at'        => 'datetime',
         'updated_at'        => 'datetime',
         'deleted_at'        => 'datetime',
@@ -364,6 +366,80 @@ class User extends Authenticatable implements HasLocalePreference
     public function preferredLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Get the user's subscriptions.
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Models\UserSubscription');
+    }
+
+    /**
+     * Get the user's current subscription.
+     */
+    public function subscription()
+    {
+        return $this->hasOne('App\Models\UserSubscription')->active()->latest();
+    }
+
+    /**
+     * Check if the user has an active subscription.
+     */
+    public function hasActiveSubscription(): bool
+    {
+        return $this->subscriptions()->active()->exists();
+    }
+
+    /**
+     * Check if the user is on trial.
+     */
+    public function onTrial(): bool
+    {
+        return $this->on_trial && $this->trial_ends_at && $this->trial_ends_at->isFuture();
+    }
+
+    /**
+     * Get remaining trial days.
+     */
+    public function getRemainingTrialDaysAttribute(): int
+    {
+        if (!$this->onTrial()) {
+            return 0;
+        }
+
+        return max(0, $this->trial_ends_at->diffInDays(now()));
+    }
+
+    /**
+     * Check if the user can access premium features.
+     */
+    public function canAccessPremiumFeatures(): bool
+    {
+        return $this->hasActiveSubscription() || $this->onTrial();
+    }
+
+    /**
+     * Start a trial for the user.
+     */
+    public function startTrial(int $days = 14): void
+    {
+        $this->update([
+            'trial_ends_at' => now()->addDays($days),
+            'on_trial' => true,
+        ]);
+    }
+
+    /**
+     * End the user's trial.
+     */
+    public function endTrial(): void
+    {
+        $this->update([
+            'trial_ends_at' => now(),
+            'on_trial' => false,
+        ]);
     }
 
     /**
