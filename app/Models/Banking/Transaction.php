@@ -48,6 +48,9 @@ class Transaction extends Model
         'contact_id',
         'description',
         'category_id',
+        'ai_category',
+        'ai_confidence',
+        'ai_explanation',
         'payment_method',
         'reference',
         'parent_id',
@@ -65,6 +68,7 @@ class Transaction extends Model
         'paid_at'           => 'datetime',
         'amount'            => 'double',
         'currency_rate'     => 'double',
+        'ai_confidence'     => 'float',
         'deleted_at'        => 'datetime',
     ];
 

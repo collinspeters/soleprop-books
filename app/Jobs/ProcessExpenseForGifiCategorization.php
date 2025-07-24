@@ -50,8 +50,8 @@ class ProcessExpenseForGifiCategorization implements ShouldQueue
             // Find or create category with GIFI code
             $category = $this->findOrCreateGifiCategory($gifiSuggestion);
 
-            // Update transaction with the suggested category
-            $this->updateTransactionCategory($category);
+            // Update transaction with the suggested category and AI data
+            $this->updateTransactionCategory($category, $gifiSuggestion);
 
             Log::info("Successfully processed expense transaction ID: {$this->transaction->id} with GIFI code: {$gifiSuggestion['gifi_code']}");
 
@@ -203,13 +203,42 @@ CONFIDENCE: High";
     }
 
     /**
-     * Update transaction with the suggested category
+     * Update transaction with the suggested category and AI data
      */
-    private function updateTransactionCategory(Category $category): void
+    private function updateTransactionCategory(Category $category, array $gifiSuggestion): void
     {
         $this->transaction->update([
             'category_id' => $category->id,
+            'ai_category' => $gifiSuggestion['category_name'],
+            'ai_confidence' => $this->convertConfidenceToNumeric($gifiSuggestion['confidence'] ?? 'Medium'),
+            'ai_explanation' => $this->generateAiExplanation($gifiSuggestion),
         ]);
+    }
+
+    /**
+     * Convert confidence level to numeric value
+     */
+    private function convertConfidenceToNumeric(string $confidence): float
+    {
+        return match (strtolower(trim($confidence))) {
+            'high' => 0.9,
+            'medium' => 0.7,
+            'low' => 0.5,
+            default => 0.7,
+        };
+    }
+
+    /**
+     * Generate explanation for AI categorization decision
+     */
+    private function generateAiExplanation(array $gifiSuggestion): string
+    {
+        $explanation = "AI suggested GIFI category: {$gifiSuggestion['gifi_code']} - {$gifiSuggestion['category_name']}";
+        $explanation .= " with {$gifiSuggestion['confidence']} confidence";
+        $explanation .= " based on expense description: '{$this->transaction->description}'";
+        $explanation .= " and amount: \${$this->transaction->amount}";
+        
+        return $explanation;
     }
 
     /**

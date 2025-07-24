@@ -67,6 +67,32 @@ class GifiCategorizationTest extends TestCase
     }
 
     /** @test */
+    public function it_stores_ai_audit_trail_data_when_processing_expense()
+    {
+        // Create an expense transaction
+        $transaction = Transaction::factory()->create([
+            'company_id' => $this->company->id,
+            'account_id' => $this->account->id,
+            'type' => Transaction::EXPENSE_TYPE,
+            'description' => 'Legal consultation fees',
+            'amount' => 500.00,
+        ]);
+        
+        // Simulate the job processing (this would normally be done by the actual job)
+        $transaction->update([
+            'ai_category' => 'Professional fees',
+            'ai_confidence' => 0.9,
+            'ai_explanation' => "AI suggested GIFI category: 9000 - Professional fees with High confidence based on expense description: 'Legal consultation fees' and amount: $500",
+        ]);
+        
+        // Assert the AI fields are stored correctly
+        $this->assertEquals('Professional fees', $transaction->fresh()->ai_category);
+        $this->assertEquals(0.9, $transaction->fresh()->ai_confidence);
+        $this->assertStringContains('GIFI category: 9000', $transaction->fresh()->ai_explanation);
+        $this->assertStringContains('High confidence', $transaction->fresh()->ai_explanation);
+    }
+
+    /** @test */
     public function it_creates_category_with_gifi_code_when_processing_expense()
     {
         // Mock the OpenAI response

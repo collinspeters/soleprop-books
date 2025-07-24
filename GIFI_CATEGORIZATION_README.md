@@ -15,12 +15,15 @@ When a new expense transaction is created, the system automatically:
 ### New Files
 - `app/Jobs/ProcessExpenseForGifiCategorization.php` - Main job that processes expenses
 - `database/migrations/2025_07_24_123803_add_gifi_code_to_categories_table.php` - Adds GIFI code field
+- `database/migrations/2025_07_24_133841_add_ai_fields_to_transactions_table.php` - Adds AI audit trail fields
 - `config/openai.php` - OpenAI configuration
 - `.env.example.openai` - Environment configuration example
 
 ### Modified Files
 - `app/Models/Setting/Category.php` - Added `gifi_code` to fillable attributes
+- `app/Models/Banking/Transaction.php` - Added AI fields (`ai_category`, `ai_confidence`, `ai_explanation`) to fillable and casts
 - `app/Observers/Transaction.php` - Added `created` method to dispatch job for new expenses
+- `app/Jobs/ProcessExpenseForGifiCategorization.php` - Updated to store AI audit trail data
 
 ## Setup Instructions
 
@@ -108,6 +111,30 @@ The migration adds a `gifi_code` field to the categories table:
 ALTER TABLE categories ADD COLUMN gifi_code VARCHAR(10) NULL AFTER name;
 ALTER TABLE categories ADD INDEX idx_gifi_code (gifi_code);
 ```
+
+### Transactions Table Addition
+The migration adds AI audit trail fields to the transactions table:
+```sql
+ALTER TABLE transactions ADD COLUMN ai_category VARCHAR(255) NULL AFTER category_id;
+ALTER TABLE transactions ADD COLUMN ai_confidence FLOAT(8,4) NULL AFTER ai_category;
+ALTER TABLE transactions ADD COLUMN ai_explanation TEXT NULL AFTER ai_confidence;
+ALTER TABLE transactions ADD INDEX idx_ai_category (ai_category);
+ALTER TABLE transactions ADD INDEX idx_ai_confidence (ai_confidence);
+```
+
+## AI Audit Trail Fields
+
+The system stores comprehensive audit trail information:
+
+- **`ai_category`** (string): The AI-suggested category name
+- **`ai_confidence`** (float): Confidence level converted to numeric (0.9=High, 0.7=Medium, 0.5=Low)
+- **`ai_explanation`** (text): Detailed explanation including GIFI code, confidence, description, and amount
+
+This audit trail allows you to:
+- Track AI decision-making for compliance purposes
+- Identify patterns in categorization accuracy
+- Review and override AI suggestions when needed
+- Analyze confidence levels to improve the system
 
 ## Monitoring and Logs
 
