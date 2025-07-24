@@ -3,7 +3,7 @@
 # Exit on any error
 set -e
 
-echo "🚀 Starting Akaunting build process..."
+echo "🚀 Starting Akaunting build process for Railway..."
 
 # Install PHP dependencies
 echo "📦 Installing Composer dependencies..."
@@ -11,7 +11,7 @@ composer install --no-dev --optimize-autoloader --no-interaction
 
 # Install Node.js dependencies and build assets
 echo "🎨 Building frontend assets..."
-npm ci
+npm ci --only=production
 npm run production
 
 # Cache Laravel configuration for better performance
@@ -26,4 +26,8 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
-echo "✅ Build completed successfully!"
+# Set proper permissions for storage
+echo "🔐 Setting storage permissions..."
+chmod -R 775 storage bootstrap/cache
+
+echo "✅ Build completed successfully for Railway!"
