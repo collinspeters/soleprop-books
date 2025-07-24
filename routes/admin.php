@@ -149,6 +149,10 @@ Route::group(['prefix' => 'banking'], function () {
     Route::get('transactions/export', 'Banking\Transactions@export')->name('transactions.export');
     Route::resource('transactions', 'Banking\Transactions', ['middleware' => ['date.format', 'money', 'dropzone']]);
 
+    Route::get('ai-review', 'Banking\AiTransactionReview@index')->name('ai-review.index');
+    Route::patch('ai-review/{transaction}', 'Banking\AiTransactionReview@update')->name('ai-review.update');
+    Route::post('ai-review/bulk-update', 'Banking\AiTransactionReview@bulkUpdate')->name('ai-review.bulk-update');
+
     Route::get('recurring-transactions/{recurring_transaction}/duplicate', 'Banking\RecurringTransactions@duplicate')->name('recurring-transactions.duplicate');
     Route::get('recurring-transactions/{recurring_transaction}/end', 'Banking\RecurringTransactions@end')->name('recurring-transactions.end');
     Route::post('recurring-transactions/import', 'Banking\RecurringTransactions@import')->middleware('import')->name('recurring-transactions.import');

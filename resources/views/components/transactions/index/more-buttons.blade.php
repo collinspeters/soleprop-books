@@ -24,4 +24,11 @@
             {{ trans('general.export') }}
         </x-dropdown.link>
     @endif
+
+    <x-dropdown.link href="{{ route('ai-review.index') }}" id="index-more-actions-ai-review">
+        <x-slot name="icon">
+            psychology
+        </x-slot>
+        {{ trans('transactions.ai_review_title') }}
+    </x-dropdown.link>
 </x-dropdown>

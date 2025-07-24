@@ -54,6 +54,11 @@ class Transaction extends Model
         'split_id',
         'created_from',
         'created_by',
+        'ai_confidence',
+        'ai_suggested_category_id',
+        'ai_reviewed',
+        'ai_reviewed_at',
+        'ai_reviewed_by',
     ];
 
     /**
@@ -66,6 +71,9 @@ class Transaction extends Model
         'amount'            => 'double',
         'currency_rate'     => 'double',
         'deleted_at'        => 'datetime',
+        'ai_confidence'     => 'decimal:4',
+        'ai_reviewed'       => 'boolean',
+        'ai_reviewed_at'    => 'datetime',
     ];
 
     /**
@@ -179,6 +187,16 @@ class Transaction extends Model
     public function taxes()
     {
         return $this->hasMany('App\Models\Banking\TransactionTax');
+    }
+
+    public function aiSuggestedCategory()
+    {
+        return $this->belongsTo('App\Models\Setting\Category', 'ai_suggested_category_id')->withoutGlobalScope('App\Scopes\Category')->withDefault(['name' => trans('general.na')]);
+    }
+
+    public function aiReviewedBy()
+    {
+        return $this->belongsTo(user_model_class(), 'ai_reviewed_by', 'id');
     }
 
     public function scopeNumber(Builder $query, string $number): Builder
@@ -312,6 +330,26 @@ class Transaction extends Model
     public function scopeIsNotReconciled(Builder $query): Builder
     {
         return $query->where('reconciled', 0);
+    }
+
+    public function scopeHasAiSuggestion(Builder $query): Builder
+    {
+        return $query->whereNotNull('ai_suggested_category_id');
+    }
+
+    public function scopeLowConfidenceAi(Builder $query, float $threshold = 0.7): Builder
+    {
+        return $query->where('ai_confidence', '<', $threshold)->whereNotNull('ai_suggested_category_id');
+    }
+
+    public function scopeUnreviewedAi(Builder $query): Builder
+    {
+        return $query->where('ai_reviewed', false)->whereNotNull('ai_suggested_category_id');
+    }
+
+    public function scopeReviewedAi(Builder $query): Builder
+    {
+        return $query->where('ai_reviewed', true);
     }
 
     public function onCloning($src, $child = null)

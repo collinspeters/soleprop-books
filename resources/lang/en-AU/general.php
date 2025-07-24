@@ -346,4 +346,8 @@ return [
         ],
     ],
 
+    'by'                        => 'by',
+    'total'                     => 'Total',
+    'back_to_transactions'      => 'Back to Transactions',
+
 ];
